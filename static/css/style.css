@@ -1,0 +1,54 @@
+* {
+    box-sizing: border-box;
+    font-family: 'K2D', sans-serif;
+}
+
+body {
+    background: url('https://r.hswstatic.com/w_907/gif/ufo-california.jpg')no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+table {
+    background-color: rgba(0, 43, 56, 0.5) !important;
+    margin-top: 15px;
+    color: white;
+    text-shadow: -.15px 0 #002b38, 0 .15px #002b38, .15px 0 #002b38, 0 -.15px #002b38;
+}
+
+.container {
+    margin-bottom: 90px;
+}
+
+.navbar {
+    text-shadow: -.15px 0 #002b38, 0 .15px #002b38, .15px 0 #002b38, 0 -.15px #002b38;
+}
+
+.wrapper {
+    min-height: 100vh;
+    height: 100%;
+    position: relative;
+}
+
+#ufo-table {
+    display: none;
+}
+
+#noResults{
+    display: none;
+    margin-top: 15px;
+}
+
+.footer {
+    position: fixed;
+    display: table-cell;
+    vertical-align: middle;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 75px;
+    color: white;
+    text-shadow: -.15px 0 #002b38, 0 .15px #002b38, .15px 0 #002b38, 0 -.15px #002b38;
+}
