@@ -19,7 +19,7 @@
                 <li>
                     <form class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" type="text" placeholder="Search" id='navSearchTxt' name="search-form">
-                        <select class="form-control" name="category" id='table-category'>
+                        <select class="form-control mr-sm-2" name="category" id='table-category'>
                             <option value="datetime">Date</option>
                             <option value="city">City</option>
                             <option value="state">State</option>
@@ -43,6 +43,35 @@
                         <th scope="col" value='shape'>Shape</th>
                         <th scope="col" value='duration'>Duration</th>
                         <th scope="col" value='comments'>Description</th>
+                    </tr>
+                    <tr>
+                        <th scope="col" value='datetime'>
+                            <select class="form-control mr-sm-2" id="date-head">
+                                <option selected="true"></option>
+                            </select>
+                        </th>
+                        <th scope="col" value='city'>
+                            <select class="form-control mr-sm-2" id="city-head">
+                                <option selected="true"></option>
+                            </select>
+                        </th>
+                        <th scope="col" value='state'>
+                            <select class="form-control mr-sm-2" id="state-head">
+                                <option selected="true"></option>
+                            </select>
+                        </th>
+                        <th scope="col" value='country'>
+                            <select class="form-control mr-sm-2" id="country-head">
+                                <option selected="true"></option>
+                            </select>
+                        </th>
+                        <th scope="col" value='shape'>
+                            <select class="form-control mr-sm-2" id="shape-head">
+                                <option selected="true"></option>
+                            </select>
+                        </th>
+                        <th scope="col" value='duration'></th>
+                        <th scope="col" value='comments'></th>
                     </tr>
                 </thead>
                 <tbody id="ufo-table-body">
