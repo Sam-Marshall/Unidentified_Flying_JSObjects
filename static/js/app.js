@@ -11,55 +11,53 @@ var stateHead = d3.select("#state-head");
 var countryHead = d3.select("#country-head");
 var shapeHead = d3.select("#shape-head");
 
-function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-}
-
+//Filtering through data.js file to get results matching category and value
 function getSearchResults(term, text) {
     var results = tableData.filter(data => data[term] == text);
     return results;
 }
 
-function headerDropDown(array, div, category) {
-    array.forEach(ar => {
-        var value = div.append('option');
-        value.text(ar).attr('class', category);
-        value.on('click', headerLookUp);
+//Getting array of unique values to plug into header dropdown menu
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+
+//Creating header dropdown menus to improve user experience exploring the data
+function headerDropDown(array, head, category) {
+    array.forEach((ar, i) => {
+        var value = head.append('option');
+        value.text(ar).attr('value', i).attr('class', category);
     });
 }
 
-function headerLookUp() {
-    var text = d3.select(this).text();
-    var category = d3.select(this).attr('class');
-    var results = getSearchResults(category, text);
-    generateTable(results);
-}
-
+//Looks up data matching the cell value on click; further improved user experience
 function lookUp() {
     var text = d3.select(this).text();
-    var classes = d3.select(this).attr('class');
-    var category = classes.split(" ")[1];
-    console.log(category);
+    var category = d3.select(this).attr('class');
+    console.log(text, category);
     var results = getSearchResults(category, text);
     generateTable(results);
 }
 
+//Generates the table showing the results from the search
 function generateTable(data) {
     noResults.style('display', 'none');
     tableBody.html('');
     table.style('display', 'table');
     data.forEach(result => {
         var row = tableBody.append('tr');
-        var date = row.append('td').text(result.datetime).attr('class', 'table-value datetime').on('click', lookUp);
-        var city = row.append('td').text(result.city).attr('class', 'table-value city').on('click', lookUp);
-        var state = row.append('td').text(result.state).attr('class', 'table-value state').on('click', lookUp);
-        var country = row.append('td').text(result.country).attr('class', 'table-value country').on('click', lookUp);
-        var shape = row.append('td').text(result.shape).attr('class', 'table-value shape').on('click', lookUp);
-        var duration = row.append('td').text(result.durationMinutes).attr('class', 'table-value duration');
-        var description = row.append('td').text(result.comments).attr('class', 'table-value description');
+        var date = row.append('td').text(result.datetime).attr('class', 'datetime').on('click', lookUp);
+        var city = row.append('td').text(result.city).attr('class', 'city').on('click', lookUp);
+        var state = row.append('td').text(result.state).attr('class', 'state').on('click', lookUp);
+        var country = row.append('td').text(result.country).attr('class', 'country').on('click', lookUp);
+        var shape = row.append('td').text(result.shape).attr('class', 'shape').on('click', lookUp);
+        var duration = row.append('td').text(result.durationMinutes).attr('class', 'duration');
+        var description = row.append('td').text(result.comments).attr('class', 'description');
     });
 };
 
+//Getting value arrays and filtering for unique values
+//String values are organized alphabetically
 var dates = tableData.map(thing => thing.datetime);
 var cities = tableData.map(thing => thing.city);
 var states = tableData.map(thing => thing.state);
@@ -75,6 +73,7 @@ uniqCountries = uniqCountries.sort()
 var uniqShapes = shapes.filter(onlyUnique);
 uniqShapes = uniqShapes.sort()
 
+//Generating header dropdown menus
 headerDropDown(uniqDates, dateHead, 'datetime');
 headerDropDown(uniqCities, cityHead, 'city');
 headerDropDown(uniqStates, stateHead, 'state');
@@ -95,6 +94,47 @@ submitBtn.on('click', function() {
     }
 });
 
-d3.selectAll('th').on('click', function() {
-    console.log(d3.select(this).attr('value'));
+d3.select('#date-head').on('change', function() {
+    d3.event.preventDefault();
+    var selIndex = d3.select(this).property('selectedIndex');
+    var value = uniqDates[selIndex - 1];
+    var results = getSearchResults('datetime', value);
+    generateTable(results);
+    d3.select(this).property('selectedIndex',0);
+});
+
+d3.select('#city-head').on('change', function() {
+    d3.event.preventDefault();
+    var selIndex = d3.select(this).property('selectedIndex');
+    var value = uniqCities[selIndex - 1];
+    var results = getSearchResults('city', value);
+    generateTable(results);
+    d3.select(this).property('selectedIndex',0);
+});
+
+d3.select('#state-head').on('change', function() {
+    d3.event.preventDefault();
+    var selIndex = d3.select(this).property('selectedIndex');
+    var value = uniqStates[selIndex - 1];
+    var results = getSearchResults('state', value);
+    generateTable(results);
+    d3.select(this).property('selectedIndex',0);
+});
+
+d3.select('#country-head').on('change', function() {
+    d3.event.preventDefault();
+    var selIndex = d3.select(this).property('selectedIndex');
+    var value = uniqCountries[selIndex - 1];
+    var results = getSearchResults('country', value);
+    generateTable(results);
+    d3.select(this).property('selectedIndex',0);
+});
+
+d3.select('#shape-head').on('change', function() {
+    d3.event.preventDefault();
+    var selIndex = d3.select(this).property('selectedIndex');
+    var value = uniqShapes[selIndex - 1];
+    var results = getSearchResults('shape', value);
+    generateTable(results);
+    d3.select(this).property('selectedIndex',0);
 });
