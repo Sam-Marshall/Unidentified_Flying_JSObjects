@@ -11,18 +11,26 @@ var stateHead = d3.select("#state-head");
 var countryHead = d3.select("#country-head");
 var shapeHead = d3.select("#shape-head");
 
+//Filtering through data.js file to get results matching category and value
 function getSearchResults(term, text) {
     var results = tableData.filter(data => data[term] == text);
     return results;
 }
 
+//Getting array of unique values to plug into header dropdown menu
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+
+//Creating header dropdown menus to improve user experience exploring the data
 function headerDropDown(array, head, category) {
     array.forEach((ar, i) => {
         var value = head.append('option');
-        value.text(ar).attr('value', i).attr('class', category).on('click', lookUp);
+        value.text(ar).attr('value', i).attr('class', category);
     });
 }
 
+//Looks up data matching the cell value on click; further improved user experience
 function lookUp() {
     var text = d3.select(this).text();
     var category = d3.select(this).attr('class');
@@ -31,10 +39,7 @@ function lookUp() {
     generateTable(results);
 }
 
-function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-}
-
+//Generates the table showing the results from the search
 function generateTable(data) {
     noResults.style('display', 'none');
     tableBody.html('');
@@ -51,6 +56,8 @@ function generateTable(data) {
     });
 };
 
+//Getting value arrays and filtering for unique values
+//String values are organized alphabetically
 var dates = tableData.map(thing => thing.datetime);
 var cities = tableData.map(thing => thing.city);
 var states = tableData.map(thing => thing.state);
@@ -66,6 +73,7 @@ uniqCountries = uniqCountries.sort()
 var uniqShapes = shapes.filter(onlyUnique);
 uniqShapes = uniqShapes.sort()
 
+//Generating header dropdown menus
 headerDropDown(uniqDates, dateHead, 'datetime');
 headerDropDown(uniqCities, cityHead, 'city');
 headerDropDown(uniqStates, stateHead, 'state');
