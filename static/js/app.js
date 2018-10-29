@@ -11,16 +11,28 @@ var stateHead = d3.select("#state-head");
 var countryHead = d3.select("#country-head");
 var shapeHead = d3.select("#shape-head");
 
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+
 function getSearchResults(term, text) {
     var results = tableData.filter(data => data[term] == text);
     return results;
 }
 
-function headerDropDown(array, category) {
+function headerDropDown(array, div, category) {
     array.forEach(ar => {
-        var value = category.append('option');
-        value.text(ar);
+        var value = div.append('option');
+        value.text(ar).attr('class', category);
+        value.on('click', headerLookUp);
     });
+}
+
+function headerLookUp() {
+    var text = d3.select(this).text();
+    var category = d3.select(this).attr('class');
+    var results = getSearchResults(category, text);
+    generateTable(results);
 }
 
 function lookUp() {
@@ -30,10 +42,6 @@ function lookUp() {
     console.log(category);
     var results = getSearchResults(category, text);
     generateTable(results);
-}
-
-function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
 }
 
 function generateTable(data) {
@@ -52,7 +60,6 @@ function generateTable(data) {
     });
 };
 
-// usage example:
 var dates = tableData.map(thing => thing.datetime);
 var cities = tableData.map(thing => thing.city);
 var states = tableData.map(thing => thing.state);
@@ -68,11 +75,11 @@ uniqCountries = uniqCountries.sort()
 var uniqShapes = shapes.filter(onlyUnique);
 uniqShapes = uniqShapes.sort()
 
-headerDropDown(uniqDates, dateHead);
-headerDropDown(uniqCities, cityHead);
-headerDropDown(uniqStates, stateHead);
-headerDropDown(uniqCountries, countryHead);
-headerDropDown(uniqShapes, shapeHead);
+headerDropDown(uniqDates, dateHead, 'datetime');
+headerDropDown(uniqCities, cityHead, 'city');
+headerDropDown(uniqStates, stateHead, 'state');
+headerDropDown(uniqCountries, countryHead, 'country');
+headerDropDown(uniqShapes, shapeHead, 'shape');
 
 submitBtn.on('click', function() {
     d3.event.preventDefault();
