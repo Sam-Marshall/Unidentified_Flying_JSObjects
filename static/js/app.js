@@ -80,11 +80,13 @@ headerDropDown(uniqStates, stateHead, 'state');
 headerDropDown(uniqCountries, countryHead, 'country');
 headerDropDown(uniqShapes, shapeHead, 'shape');
 
+//Submit button on click event for search bar search
 submitBtn.on('click', function() {
     d3.event.preventDefault();
     var inputValue = navSearchTxt.property("value");
     inputValue = inputValue.toLowerCase();
     var catValue = navCategory.property("value");
+    navSearchTxt.property("value", "");
     var results = getSearchResults(catValue, inputValue);
     if (results.length > 0) {
         generateTable(results);
@@ -94,6 +96,7 @@ submitBtn.on('click', function() {
     }
 });
 
+//Generate table based on user selected header dropdown selection
 d3.select('#date-head').on('change', function() {
     d3.event.preventDefault();
     var selIndex = d3.select(this).property('selectedIndex');
